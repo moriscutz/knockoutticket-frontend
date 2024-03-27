@@ -8,12 +8,10 @@ function App() {
     const fetchAppUsers = async () => {
       try {
         const response = await UserCalls.getAppUsers();
-        // Extract the user data from the response
         const users = response.map((entry) => entry.user);
         setAppUsers(users);
       } catch (error) {
         console.error("Error fetching users:", error);
-        // Handle error if needed
       }
     };
 
