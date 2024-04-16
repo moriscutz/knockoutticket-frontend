@@ -34,11 +34,11 @@ const LoginComponent = () => {
   return (
     <div className="container">
       <div className="component">
-        <div class="form">
+        <div className="form">
           {isLoggedIn ? ( 
             <p>You are logged in!</p>
           ) : (
-          <form class="login-form" onSubmit={handleSubmit}>
+          <form className="login-form" onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="Username"
@@ -54,12 +54,12 @@ const LoginComponent = () => {
               onChange={handleChange}
             />
             <button type="submit">Login</button> 
-            <p class="message">
+            <p className="message">
               Not registered? <Link to="/signup">Create an account</Link>
             </p>
           </form>
           )}
-        </div>npm 
+        </div>
       </div>
     </div>
   );
