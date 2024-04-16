@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import '../css/LoginComponentStyle.css';
 import { Link } from 'react-router-dom';
+import { authService } from '../api/LoginCalls';
 
 const LoginComponent = () => {
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
     password: ''
   });
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -17,23 +19,47 @@ const LoginComponent = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(formData);
+    try {
+      const response = await authService.loginApi(formData);
+      console.log(response); 
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error('Error during login: ', error);
+    }
   };
 
   return (
     <div className="container">
       <div className="component">
         <div class="form">
-          <form class="login-form">
-            <input type="text" placeholder="Username"/>
-            <input type="password" placeholder="Password"/>
-            <button>login</button>
-            <p class="message">Not registered? <Link to="/signup">Create an account</Link></p>
+          {isLoggedIn ? ( 
+            <p>You are logged in!</p>
+          ) : (
+          <form class="login-form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <button type="submit">Login</button> 
+            <p class="message">
+              Not registered? <Link to="/signup">Create an account</Link>
+            </p>
           </form>
-        </div>
+          )}
+        </div>npm 
       </div>
     </div>
   );

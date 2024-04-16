@@ -6,8 +6,7 @@ import "../css/HomePageStyle.css";
 const HomePage = () => {
   return (
     <div>
-      <LoginComponent />
-      <SidebarComponent/>
+      <LoginComponent/>
     </div>
   );
 };
