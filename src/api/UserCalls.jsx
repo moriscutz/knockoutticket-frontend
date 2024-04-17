@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'https://localhost:8080/users';
+const BASE_URL = 'http://localhost:8080/users';
 const UserCalls = {
     getAppUsers: async () => {
       try {
@@ -11,7 +11,22 @@ const UserCalls = {
         throw error; 
       }
     },
-  };
   
+    createAppUser: async (userData) => {
+      try{
+        const response= await axios.post(BASE_URL, userData)
+        return response.data;
+      } catch (error) {
+        if(error.response){
+          console.error("Error creating user: ", error.response.data);
+      } else if (error.request){
+          console.error("Error creating user: ", error.request);
+      } else{
+          console.error("Error creating user: ", error.message);
+      }
+        throw error;
+      }
+    }
+};
 
 export default UserCalls

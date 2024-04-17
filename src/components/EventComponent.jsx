@@ -11,16 +11,25 @@ const EventComponent = () => {
     });
     
     return (
-        <article>
-            <section className="card"> 
-                <div className="text-content"> 
-                    <h3>Boxing match</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>  
-                    <a href="#">Join now</a> 
-                </div>
-            </section> 
-        </article>
+        <div className="container">
+    <div className="form">
+      <div className="boxer">
+        <div className="boxer-info">
+          <h2>Boxer 1</h2>
+          <p>Record: 25 wins, 2 losses, 1 draw</p>
+        </div>
+      </div>
+      <div className="vs">
+        <h2>VS</h2>
+      </div>
+      <div className="boxer">
+        <div className="boxer-info">
+          <h2>Boxer 2</h2>
+          <p>Record: 20 wins, 5 losses</p>
+        </div>
+      </div>
+    </div>
+  </div>
     );
 };
 
