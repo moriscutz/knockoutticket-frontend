@@ -1,6 +1,5 @@
 import React, { useState } from "react"; 
 import { Link } from 'react-router-dom';
-import '../css/EventPostStyle.css';
 
 const EventComponent = () => {
     const [formData, setFormData] = useState({
