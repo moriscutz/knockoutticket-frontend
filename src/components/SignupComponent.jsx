@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import '../css/LoginComponentStyle.css';
 import { Link } from 'react-router-dom';
 import UserCalls from '../api/UserCalls.jsx'; 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {useNavigate} from "react-router-dom";
 
 const SignupComponent = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -25,8 +30,11 @@ const SignupComponent = () => {
       const response = await UserCalls.createAppUser(formData);
       console.log(response);
       console.log('User created successfully!');
+      toast("Your account has been created")
+      navigate("/login");
     } catch (error) {
       console.error('Error creating user:', error);
+      toast("There has been an error", error)
     }
   };
 
@@ -57,10 +65,11 @@ const SignupComponent = () => {
               onChange={handleChange}
             />
             <button type="submit">Create account</button> 
-            <p className="message">Already have an account? <Link to="/">Log in</Link></p> 
+            <p className="message">Already have an account? <Link to="/login">Log in</Link></p> 
           </form>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };
