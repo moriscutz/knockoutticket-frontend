@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "../css/SideBarStyle.css";
+import { jwtDecode } from 'jwt-decode';
+import LogoutButton from '../components/LogOutButton';
 
 const SidebarComponent = () => {
+  const [userRole, setUserRole] = useState('');
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      const decodedToken = jwtDecode(storedToken);
+      setUserRole(decodedToken.roles);
+    }
+  }, []);
+
   const toggleSidebar = () => {
     const sidebar = document.querySelector('.sidebar');
     sidebar.classList.toggle('close');
   };
-
+  
   return (
     <nav className="sidebar close">
       <header>
-        <p>Hello, Valentin!</p>
+        <p>Hello, {userRole}!</p>
         <i className='bx bx-chevron-right toggle' onClick={toggleSidebar}></i>
       </header>
 
@@ -22,18 +34,7 @@ const SidebarComponent = () => {
               <i className='bx bx-home-alt icon'></i>
               <span className="text nav-text">Home</span>
             </Link>
-          </li>
-          <li className="nav-link">
-            <Link to="/about">
-              <i className='bx bx-info-circle icon'></i>
-              <span className="text nav-text">About</span>
-            </Link>
-          </li>
-          <li className="nav-link">
-            <Link to="/contact">
-              <i className='bx bx-envelope icon'></i>
-              <span className="text nav-text">Contact</span>
-            </Link>
+            <LogoutButton/>
           </li>
         </ul>
       </div>
