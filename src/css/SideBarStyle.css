@@ -7,7 +7,6 @@
 }
 
 :root {
-  /* ===== Colors ===== */
   --body-color: #e4e9f7;
   --sidebar-color: #fff;
   --primary-color: #3a3a41;
@@ -15,7 +14,6 @@
   --toggle-color: #ddd;
   --text-color: #707070;
 
-  /* ====== Transition ====== */
   --tran-03: all 0.2s ease;
   --tran-03: all 0.3s ease;
   --tran-04: all 0.3s ease;
@@ -42,7 +40,7 @@ body.dark {
   --text-color: #ccc;
 }
 
-/* ===== Sidebar ===== */
+
 .sidebar {
   position: fixed;
   top: 0;
