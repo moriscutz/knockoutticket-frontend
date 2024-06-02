@@ -22,12 +22,7 @@ const CreateBoxerComponent = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/login');
-    } else {
-      const decodedToken = JSON.parse(localStorage.getItem('user'));
-      if (!decodedToken.roles || !decodedToken.roles.includes('ADMINISTRATOR')) {
-        navigate('/unauthorized');
-      }
-    }
+    } 
   }, [navigate]);
 
   const handleChange = (e) => {
