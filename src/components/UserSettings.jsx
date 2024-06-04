@@ -109,7 +109,7 @@ const UserSettings = () => {
           margin="normal"
           helperText="Enter a new password if you want to change it"
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="secondary">
           Update
         </Button>
       </form>

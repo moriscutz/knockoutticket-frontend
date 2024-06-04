@@ -9,15 +9,18 @@ import EventIcon from '@mui/icons-material/Event';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ListIcon from '@mui/icons-material/List';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
+import GroupsIcon from '@mui/icons-material/Groups';
+
 
 const SidebarComponent = () => {
   const [username, setUsername] = useState('');
-
+  const [role, setRole] = useState('');
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       const decodedToken = jwtDecode(storedToken);
       setUsername(decodedToken.sub);
+      setRole(decodedToken.roles);
     }
   }, []);
 
@@ -30,9 +33,9 @@ const SidebarComponent = () => {
     <nav className="sidebar close">
       <header>
         <p>Hello, {username}!</p>
+        <span className="text nav-text">{role}</span>
         <i className='bx bx-chevron-right toggle' onClick={toggleSidebar}></i>
       </header>
-
       <div className="menu-bar">
         <ul className="menu-links">
           <li className="nav-link">
@@ -63,6 +66,12 @@ const SidebarComponent = () => {
             <Link to="/notifications">
               <AddAlertIcon className='icon'/>
               <span className="text nav-text">Notifications</span>
+            </Link>
+          </li>
+          <li className="nav-link">
+            <Link to="/users">
+              <GroupsIcon className='icon'/>
+              <span className="text nav-text">Users list</span>
             </Link>
           </li>
           <li className="nav-link">

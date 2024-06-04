@@ -11,7 +11,7 @@ import Unauthorized from './components/Unauthorized.jsx';
 import UserSettingsPage from './pages/UserSettingsPage.jsx';
 import ModifyBoxerComponent from './components/ModifyBoxerComponent.jsx';
 import BoxersListComponent from './components/BoxersListComponent.jsx';
-
+import UserListPage from './pages/UserListPage.jsx';
 
 function App() {
   return (
@@ -28,6 +28,8 @@ function App() {
           <Route path="/settings" element={<ProtectedRoute><UserSettingsPage /></ProtectedRoute>} />
           <Route path="/modifyboxer/:id" element={<ProtectedRoute><ModifyBoxerComponent/></ProtectedRoute>} />
           <Route path="/boxerslist" element={<ProtectedRoute><BoxersListComponent /></ProtectedRoute>} />
+          <Route path="/users" element ={<ProtectedRoute><UserListPage/> </ProtectedRoute>} />
+
 
           <Route path="/unauthorized" element= {<Unauthorized/>} />
         </Routes>
