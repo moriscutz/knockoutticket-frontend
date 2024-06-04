@@ -95,7 +95,7 @@ const CreateEventComponent = () => {
                     minDate={dayjs()}
                 />
             </LocalizationProvider>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>Create Event</Button>
+            <Button variant="contained" color="secondary" onClick={handleSubmit}>Create Event</Button>
             <ToastContainer />
         </div>
     );

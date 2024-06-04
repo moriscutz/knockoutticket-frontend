@@ -5,16 +5,11 @@ import SideBarComponent from '../components/SideBarComponent.jsx';
 
 const UserSettingsPage = () => {
   return (
-    <Grid container>
-      <Grid item xs={3}>
-        <SideBarComponent />
-      </Grid>
-      <Grid item xs={9}>
-        <Container>
-          <UserSettings />
-        </Container>
-      </Grid>
-    </Grid>
+    <div>
+      <SideBarComponent />
+      <UserSettings />
+    </div>
+        
   );
 };
 

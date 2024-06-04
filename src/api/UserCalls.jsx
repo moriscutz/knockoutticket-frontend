@@ -67,6 +67,22 @@ const UserCalls = {
       console.error(`Error updating user with id ${id}:`, error);
       throw error;
     }
+  },
+
+  deleteAppUser: async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('No token found');
+
+      await axios.delete(`${BASE_URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    } catch (error) {
+      console.error(`Error deleting user with id ${id}:`, error);
+      throw error;
+    }
   }
 };
 
