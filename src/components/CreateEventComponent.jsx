@@ -21,14 +21,7 @@ const CreateEventComponent = () => {
     useEffect(() => {
 
         const token = localStorage.getItem('token');
-        if (!token) {
-          navigate('/login');
-        } else {
-          const decodedToken = JSON.parse(localStorage.getItem('user'));
-          if (!decodedToken.roles || !decodedToken.roles.includes('ADMINISTRATOR')) {
-            navigate('/unauthorized');
-          }
-        }
+       
 
         BoxerCalls.getAllBoxers().then(setBoxers).catch(error => {
             console.error('Failed to fetch boxers:', error);
@@ -102,7 +95,7 @@ const CreateEventComponent = () => {
                     minDate={dayjs()}
                 />
             </LocalizationProvider>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>Create Event</Button>
+            <Button variant="contained" color="secondary" onClick={handleSubmit}>Create Event</Button>
             <ToastContainer />
         </div>
     );

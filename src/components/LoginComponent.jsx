@@ -46,7 +46,6 @@ const LoginComponent = () => {
 
       const response = await authService.loginApi(formData);
       const { accessToken } = response;
-      console.log(response); 
 
       const decodedToken = jwtDecode(accessToken);
 
