@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, Grid, Container, Button } from '@mui/mat
 import EventCalls from '../api/EventCalls.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 const EventListComponent = () => {
     const [events, setEvents] = useState([]);
@@ -60,7 +61,7 @@ const EventListComponent = () => {
                                 <Typography variant="body2" component="p" gutterBottom>
                                     Place: {event.event.place}
                                 </Typography>
-                                <Button variant="contained" color="primary">
+                                <Button variant="contained" color="primary" component={Link} to={`/book/${event.event.id}`}>
                                     Book event
                                 </Button>
                             </CardContent >

@@ -21,6 +21,9 @@ const SidebarComponent = () => {
       const decodedToken = jwtDecode(storedToken);
       setUsername(decodedToken.sub);
       setRole(decodedToken.roles);
+
+      if(decodedToken.roles.includes("EVENT_ORGANIZER"))
+        setRole("EVENT_ORGANIZER");
     }
   }, []);
 
@@ -62,12 +65,14 @@ const SidebarComponent = () => {
               <span className="text nav-text">Boxers List</span>
             </Link>
           </li>
-          <li className="nav-link">
-            <Link to="/notifications">
-              <AddAlertIcon className='icon'/>
-              <span className="text nav-text">Notifications</span>
-            </Link>
-          </li>
+          {role === "EVENT_ORGANIZER" && (
+            <li className="nav-link">
+              <Link to="/sendnotification">
+                <AddAlertIcon className='icon'/>
+                <span className="text nav-text">Send Notifications</span>
+              </Link>
+            </li>
+          )}
           <li className="nav-link">
             <Link to="/users">
               <GroupsIcon className='icon'/>
