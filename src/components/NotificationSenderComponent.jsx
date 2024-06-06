@@ -29,7 +29,7 @@ const NotificationSenderComponent = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
             />
-            <Button variant="contained" color="primary" onClick={sendNotification}>
+            <Button variant="contained" color="secondary" onClick={sendNotification}>
                 Send Notification
             </Button>
         </Container>

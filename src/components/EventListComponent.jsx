@@ -61,7 +61,7 @@ const EventListComponent = () => {
                                 <Typography variant="body2" component="p" gutterBottom>
                                     Place: {event.event.place}
                                 </Typography>
-                                <Button variant="contained" color="primary" component={Link} to={`/book/${event.event.id}`}>
+                                <Button variant="contained" color="secondary" component={Link} to={`/book/${event.event.id}`}>
                                     Book event
                                 </Button>
                             </CardContent >

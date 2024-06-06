@@ -30,7 +30,6 @@ const NotificationReceiverComponent = () => {
             open={open}
             autoHideDuration={6000}
             onClose={handleClose}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}  
         >
             <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
                 {notification}

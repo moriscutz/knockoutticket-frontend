@@ -17,7 +17,7 @@ import NotificationPage from './pages/NotificationPage.jsx';
 import NotificationReceiverComponent from './components/NotificationReceiverComponent.jsx';
 import { WebSocketProvider } from './components/WebSocketContext.jsx';
 import { useUser, UserProvider } from './components/UserContext.jsx';
-
+import LayoutComponent from './components/LayoutComponent.jsx';
 function App() {
 
   const user = useUser();
@@ -26,25 +26,26 @@ function App() {
       
         <div className="App">
           <Router>
-            <NotificationReceiverComponent/>
-            <Routes>
-              <Route path="/signup" element={<SignupComponent/>} />
-              <Route path="/login" element= {<LoginComponent/>} />
-              
+            <LayoutComponent>
+              <Routes>
+                <Route path="/signup" element={<SignupComponent/>} />
+                <Route path="/login" element= {<LoginComponent/>} />
+                
 
-              <Route path="/" element={<ProtectedRoute><HomePage/></ProtectedRoute>} />
-              <Route path="/homepage" element={<ProtectedRoute><HomePage/></ProtectedRoute>} />
-              <Route path="/createboxer" element={<ProtectedRoute><CreateBoxerPage/></ProtectedRoute>} />
-              <Route path="/createevent" element={<ProtectedRoute><CreateEventPage/></ProtectedRoute>} />
-              <Route path="/settings" element={<ProtectedRoute><UserSettingsPage /></ProtectedRoute>} />
-              <Route path="/modifyboxer/:id" element={<ProtectedRoute><ModifyBoxerComponent/></ProtectedRoute>} />
-              <Route path="/boxerslist" element={<ProtectedRoute><BoxersListComponent /></ProtectedRoute>} />
-              <Route path="/users" element ={<ProtectedRoute><UserListPage/> </ProtectedRoute>} />
-              <Route path="/book/:id" element={<ProtectedRoute><BookingPage/></ProtectedRoute>} />
-              <Route path="/sendnotification" element={<ProtectedRoute><NotificationPage/></ProtectedRoute>} />
+                <Route path="/" element={<ProtectedRoute><HomePage/></ProtectedRoute>} />
+                <Route path="/homepage" element={<ProtectedRoute><HomePage/></ProtectedRoute>} />
+                <Route path="/createboxer" element={<ProtectedRoute><CreateBoxerPage/></ProtectedRoute>} />
+                <Route path="/createevent" element={<ProtectedRoute><CreateEventPage/></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><UserSettingsPage /></ProtectedRoute>} />
+                <Route path="/modifyboxer/:id" element={<ProtectedRoute><ModifyBoxerComponent/></ProtectedRoute>} />
+                <Route path="/boxerslist" element={<ProtectedRoute><BoxersListComponent /></ProtectedRoute>} />
+                <Route path="/users" element ={<ProtectedRoute><UserListPage/> </ProtectedRoute>} />
+                <Route path="/book/:id" element={<ProtectedRoute><BookingPage/></ProtectedRoute>} />
+                <Route path="/sendnotification" element={<ProtectedRoute><NotificationPage/></ProtectedRoute>} />
 
-              <Route path="/unauthorized" element= {<Unauthorized/>} />
-            </Routes>
+                <Route path="/unauthorized" element= {<Unauthorized/>} />
+              </Routes>
+            </LayoutComponent>
           </Router>
         </div>
        

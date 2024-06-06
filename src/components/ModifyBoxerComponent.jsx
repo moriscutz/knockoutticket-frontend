@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Container } from '@mui/material';
+import { TextField, Button, Container, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BoxerCalls from '../api/BoxerCalls';
@@ -17,6 +17,7 @@ const ModifyBoxerComponent = () => {
         losses: '',
         draws: ''
     });
+    const [openConfirmation, setOpenConfirmation] = useState(false);
 
     useEffect(() => {
         const fetchBoxerData = async () => {
@@ -58,17 +59,24 @@ const ModifyBoxerComponent = () => {
     };
 
     const handleDelete = async (id) => {
-        try {
-          await BoxerCalls.deleteBoxer(id);
-          toast.success('Boxer deleted successfully');
-          navigate('/');
-        } catch (error) {
-          console.error('Error deleting boxer:', error);
-          toast.error('Error deleting boxer. Please try again later.');
-        }
-      };
+        setOpenConfirmation(true);
+    };
 
-    
+    const confirmDelete = async () => {
+        try {
+            await BoxerCalls.deleteBoxer(boxerData.id);
+            toast.success('Boxer deleted successfully');
+            navigate('/');
+        } catch (error) {
+            console.error('Error deleting boxer:', error);
+            toast.error('Error deleting boxer. Please try again later.');
+        }
+    };
+
+    const cancelDelete = () => {
+        setOpenConfirmation(false);
+    };
+
     return (
         <Container>
             <h2>Modify Boxer</h2>
@@ -108,15 +116,31 @@ const ModifyBoxerComponent = () => {
                     fullWidth
                     margin="normal"
                 />
-                <Button type="submit" variant="contained" color="primary">
+                <Button type="submit" variant="contained" color="secondary">
                     Update Boxer
                 </Button> 
-                <Button onClick={() => handleDelete(boxerData.id)} variant="contained" color="primary">
+                <Button onClick={() => handleDelete(boxerData.id)} variant="contained" color="secondary">
                   Delete
                 </Button>
             </form>
             <ToastContainer />
             <SidebarComponent/>
+
+            {/* Confirmation Dialog */}
+            <Dialog open={openConfirmation} onClose={cancelDelete}>
+                <DialogTitle>Confirmation</DialogTitle>
+                <DialogContent>
+                    <p>Are you sure you want to delete this boxer?</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={cancelDelete} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={confirmDelete} color="secondary" autoFocus>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     );
 };

@@ -59,6 +59,14 @@ const UserSettings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if at least one field is filled
+    const filledFields = Object.values(userData).filter(value => value !== '');
+    if (filledFields.length === 0) {
+      toast.error('Please fill at least one field');
+      return;
+    }
+
     try {
       await UserCalls.updateAppUser(userData.id, {
         id: userData.id,

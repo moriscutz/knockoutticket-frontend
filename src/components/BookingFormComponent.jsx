@@ -53,7 +53,7 @@ const BookingFormComponent = ({ event }) => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button variant="contained" color="primary" fullWidth onClick={handleBooking}>
+                    <Button variant="contained" color="secondary" fullWidth onClick={handleBooking}>
                         Book Now
                     </Button>
                 </Grid>
