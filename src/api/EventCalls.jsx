@@ -59,6 +59,24 @@ const EventCalls = {
             console.error('Error getting event boxers:', error);
             throw error;
         }
+    },
+
+    getEvent: async (eventId) => {
+        try{
+            const token = localStorage.getItem('token');
+            if(!token) throw new Error('No token found!');
+
+            const response = await axios.get(`${BASE_URL}/${eventId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error){
+            console.error('Error getting event:', error);
+            throw error;
+        }
     }
 };
 

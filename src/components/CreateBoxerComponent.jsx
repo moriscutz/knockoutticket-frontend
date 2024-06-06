@@ -33,21 +33,28 @@ const CreateBoxerComponent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if any required field is empty
+    const requiredFields = ['fullName', 'weightClass', 'wins', 'losses', 'draws', 'weight', 'age'];
+    const missingFields = requiredFields.filter(field => !formData[field]);
+
+    if (missingFields.length > 0) {
+      toast.error('Please fill all required fields');
+      return;
+    }
 
     try {
       await BoxerCalls.createBoxer(formData);
-      
       console.log('Boxer created successfully!');
-      toast("Boxer created succesfully");
+      toast.success("Boxer created successfully");
     } catch (error) {
       console.error('Error creating boxer: ', error);
-      toast("There has been an error with creating the boxer");
+      toast.error("There has been an error with creating the boxer");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-        <p>Create boxer</p>
+      <p>Create boxer</p>
       <TextField
         label="Full Name"
         name="fullName"

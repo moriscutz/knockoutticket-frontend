@@ -85,7 +85,7 @@ const BoxersListComponent = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={handleSearch}>
+          <Button variant="contained" color="secondary" onClick={handleSearch}>
             Search
           </Button>
         </Grid>

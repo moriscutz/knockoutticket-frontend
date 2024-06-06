@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import BoxerCalls from '../api/BoxerCalls';
 import EventCalls from '../api/EventCalls';
 import { useNavigate } from 'react-router-dom';
-
+import Stack from '@mui/material/Stack';
 
 const CreateEventComponent = () => {
     const navigate = useNavigate();
@@ -64,9 +64,11 @@ const CreateEventComponent = () => {
 
     return (
         <div>
+            <Stack spacing={2}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Autocomplete
                     options={boxers}
+                    
                     getOptionLabel={(option) => option.boxer.fullName}
                     value={selectedBoxer1}
                     onChange={(event, newValue) => {
@@ -76,6 +78,7 @@ const CreateEventComponent = () => {
                 />
                 <Autocomplete
                     options={boxers}
+                    
                     getOptionLabel={(option) => option.boxer.fullName}
                     value={selectedBoxer2}
                     onChange={(event, newValue) => setSelectedBoxer2(newValue)}
@@ -83,12 +86,14 @@ const CreateEventComponent = () => {
                 />
                 <TextField
                     label="Event Place"
+                    margin="normal"
                     value={place}
                     fullWidth
                     onChange={(e) => setPlace(e.target.value)}
                 />
                 <DatePicker
                     label="Select Date"
+                    
                     value={eventDate}
                     onChange={setEventDate}
                     renderInput={(params) => <TextField {...params} />}
@@ -97,7 +102,9 @@ const CreateEventComponent = () => {
             </LocalizationProvider>
             <Button variant="contained" color="secondary" onClick={handleSubmit}>Create Event</Button>
             <ToastContainer />
+            </Stack>
         </div>
+        
     );
 };
 
