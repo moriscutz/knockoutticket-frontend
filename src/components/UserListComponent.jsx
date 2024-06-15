@@ -27,27 +27,6 @@ const UserListComponent = () => {
     fetchUsers();
   }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      await UserCalls.deleteAppUser(id);
-      setUsers(users.filter(user => user.id !== id));
-      setOpenConfirmation(false);
-      toast.success('User deleted successfully');
-    } catch (err) {
-      setError(err.message);
-      toast.error('Error deleting user. Please try again later.');
-    }
-  };
-
-  const handleOpenConfirmation = (id) => {
-    setSelectedUserId(id);
-    setOpenConfirmation(true);
-  };
-
-  const handleCloseConfirmation = () => {
-    setOpenConfirmation(false);
-  };
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -64,34 +43,10 @@ const UserListComponent = () => {
               <Typography variant="body1" component="div">
                 {user.email}
               </Typography>
-              <Button 
-                variant="contained" 
-                color="secondary" 
-                onClick={() => handleOpenConfirmation(user.id)}
-                style={{ marginTop: '8px' }}
-              >
-                Delete
-              </Button>
             </Paper>
           </Grid>
         ))}
       </Grid>
-
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={openConfirmation} onClose={handleCloseConfirmation}>
-        <DialogTitle>Delete User</DialogTitle>
-        <DialogContent>
-          <Typography>Are you sure you want to delete this user?</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseConfirmation} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={() => handleDelete(selectedUserId)} color="secondary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
       
       <ToastContainer />
     </div>

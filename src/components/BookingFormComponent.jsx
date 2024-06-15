@@ -1,65 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Typography, TextField, Button, Grid, Paper } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button, Stack } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
+import BookingCalls from '../api/BookingCalls';
 import 'react-toastify/dist/ReactToastify.css';
-import EventCalls from '../api/EventCalls';
-const BookingFormComponent = ({ event }) => {
+
+const BookingFormComponent = ({ eventFightNightId }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [boxer1, setBoxer1] = useState({});
-    const [boxer2, setBoxer2] = useState({});
 
-     useEffect(() => {
-        const fetchBoxers = async () => {
-            try {
-                const { boxer1, boxer2 } = await EventCalls.getEventBoxers(event.id);
-                setBoxer1(boxer1);
-                setBoxer2(boxer2);
-            } catch (error) {
-                console.error('Error fetching boxer details:', error);
-                toast.error('Error fetching boxer details. Please try again later.');
-            }
+    const handleSubmit = async () => {
+        if (!name || !email) {
+            toast.error('Please fill all required fields.');
+            return;
+        }
+
+        const bookingData = {
+            name,
+            email,
+            eventFightNightId
         };
 
-        fetchBoxers();
-    }, [event.id]);
-
-    const handleBooking = async () => {
+        try {
+            const response = await BookingCalls.createBooking(bookingData);
             toast.success('Booking successful!');
-
+        } catch (error) {
+            console.error('Error creating booking:', error);
+            toast.error('Failed to create booking.');
+        }
     };
 
     return (
-        <Container component={Paper} elevation={3} sx={{ padding: 3, marginTop: 5 }}>
-            <Typography variant="h4" gutterBottom>
-            Book Event: {boxer1.fullName} vs {boxer2.fullName}
-            </Typography>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <TextField
-                        label="Name"
-                        fullWidth
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        label="Email"
-                        fullWidth
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Button variant="contained" color="secondary" fullWidth onClick={handleBooking}>
-                        Book Now
-                    </Button>
-                </Grid>
-            </Grid>
-            <ToastContainer />
-        </Container>
+        <div>
+            <Stack spacing={2}>
+                <TextField
+                    name='name'
+                    label="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    fullWidth
+                />
+                <TextField
+                    name="email"
+                    label="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    fullWidth
+                />
+                <Button variant="contained" color="secondary" onClick={handleSubmit}>
+                    Book Event Fight Night
+                </Button>
+                <ToastContainer />
+            </Stack>
+        </div>
     );
 };
 

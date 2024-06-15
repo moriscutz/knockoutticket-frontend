@@ -1,18 +1,26 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
-const ProtectedRoute = ({children}) => {
+const ProtectedRoute = ({ children }) => {
     const isAuthenticated = () => {
         const token = localStorage.getItem('token');
-        if(!token) return false;
+        if (!token) return false;
 
-        try{
+        try {
             const decodedToken = jwtDecode(token);
-            //jwt expiration is in seconds
+            // jwt expiration is in seconds
             const currentTime = Date.now() / 1000;
-            return decodedToken.exp > currentTime;
-        } catch ( error){
+            if (decodedToken.exp > currentTime) {
+                return true;
+            } else {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                return false;
+            }
+        } catch (error) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
             return false;
         }
     };

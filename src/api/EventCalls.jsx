@@ -77,6 +77,30 @@ const EventCalls = {
             console.error('Error getting event:', error);
             throw error;
         }
+    },
+
+    updateEventStatus: async (eventId, status) => {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('No token found');
+
+        const response = await axios.put(`${BASE_URL}/${eventId}`, { status }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
+    },
+
+    deleteEvent: async (eventId) => {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('No token found');
+
+        const response = await axios.delete(`${BASE_URL}/${eventId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
     }
 };
 

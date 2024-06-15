@@ -3,6 +3,7 @@ import { TextField, MenuItem, Button } from '@mui/material';
 import BoxerCalls from '../api/BoxerCalls.jsx';
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const weightClasses = ['HEAVYWEIGHT', 'LIGHT_HEAVYWEIGHT', 'MIDDLEWEIGHT', 'WELTERWEIGHT', 'LIGHTWEIGHT', 'FEATHERWEIGHT'];
 
@@ -17,13 +18,17 @@ const CreateBoxerComponent = () => {
     weight: '',
     age: ''
   });
+  const [role, setRole] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-    } 
-  }, [navigate]);
+    const decodedToken = jwtDecode(token);
+    setRole(decodedToken.roles);
+
+    if(role.includes("NORMAL_USER")){
+      navigate("/unauthorized");
+    }
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +38,6 @@ const CreateBoxerComponent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if any required field is empty
     const requiredFields = ['fullName', 'weightClass', 'wins', 'losses', 'draws', 'weight', 'age'];
     const missingFields = requiredFields.filter(field => !formData[field]);
 

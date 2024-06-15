@@ -1,10 +1,26 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { TextField, Button, Typography, Container, Paper } from '@mui/material';
 import { useWebSocket } from './WebSocketContext';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const NotificationSenderComponent = () => {
     const [message, setMessage] = useState('');
     const stompClient = useWebSocket();
+    const [role, setRole] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        const decodedToken = jwtDecode(storedToken);
+        setRole(decodedToken.roles);
+        
+        if(role.includes("NORMAL_USER"))
+            {
+                navigate("/unauthorized");
+            }
+
+    });
 
     const sendNotification = () => {
         if (stompClient && stompClient.connected) {

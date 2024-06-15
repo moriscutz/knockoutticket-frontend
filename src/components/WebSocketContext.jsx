@@ -12,7 +12,7 @@ export const WebSocketProvider = ({ children }) => {
         const client = new Client({
             brokerURL: 'ws://localhost:8080/ws',
             reconnectDelay: 5000,
-            debug: (str) => console.log(str),
+            //debug: (str) => console.log(str),
             onConnect: () => {
                 console.log('Connected to WebSocket');
                 client.subscribe('/topic/notifications', (message) => {

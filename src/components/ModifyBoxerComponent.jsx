@@ -6,6 +6,7 @@ import BoxerCalls from '../api/BoxerCalls';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import SidebarComponent from '../components/SideBarComponent.jsx';
+import { jwtDecode } from 'jwt-decode';
 
 const ModifyBoxerComponent = () => {
     const navigate = useNavigate();
@@ -18,8 +19,18 @@ const ModifyBoxerComponent = () => {
         draws: ''
     });
     const [openConfirmation, setOpenConfirmation] = useState(false);
+    const [role, setRole] = useState([]);
 
     useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        const decodedToken = jwtDecode(storedToken);
+        setRole(decodedToken.roles);
+
+        if(role.includes("NORMAL_USER"))
+            {
+              navigate("/unauthorized");
+            }
+            
         const fetchBoxerData = async () => {
             try {
                 const response = await BoxerCalls.getBoxerById(id);
@@ -31,7 +42,7 @@ const ModifyBoxerComponent = () => {
         };
 
         fetchBoxerData();
-    }, [id]);
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
