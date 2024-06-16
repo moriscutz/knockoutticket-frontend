@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Divider, Typography } from '@mui/material';
-import { Home as HomeIcon, AddBox as AddBoxIcon, Settings as SettingsIcon, List as ListIcon, AddAlert as AddAlertIcon, Groups as GroupsIcon, EventNote as EventNoteIcon, Menu as MenuIcon } from '@mui/icons-material';
+import { Home as HomeIcon, SportsMma as SportsMmaIcon, AddBox as AddBoxIcon, Settings as SettingsIcon, List as ListIcon, AddAlert as AddAlertIcon, Groups as GroupsIcon, EventNote as EventNoteIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { jwtDecode } from 'jwt-decode';
 import LogoutButton from './LogOutButton';
 import '../css/SideBarComponentStyle.css';
+
 
 const SidebarComponent = () => {
   const [username, setUsername] = useState('');
   const [role, setRole] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [userId, setUserId] = useState('');
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       const decodedToken = jwtDecode(storedToken);
       setUsername(decodedToken.sub);
       setRole(decodedToken.roles);
+      setUserId(decodedToken.userId);
     }
   }, []);
 
@@ -50,6 +52,10 @@ const SidebarComponent = () => {
           <ListItem button component={Link} to="/" onClick={toggleDrawer}>
             <ListItemIcon><HomeIcon /></ListItemIcon>
             <ListItemText primary="Home" />
+          </ListItem>
+          <ListItem button component={Link} to={`/bookings-for-user/${userId}`} onClick={toggleDrawer}>
+            <ListItemIcon><SportsMmaIcon /></ListItemIcon>
+            <ListItemText primary="Bookings" />
           </ListItem>
           {isEventOrganizerOrAdmin && (
             <>

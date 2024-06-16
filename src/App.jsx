@@ -21,6 +21,7 @@ import EventFightNightModificationPage from './pages/EventFightNightModification
 import { useEffect, useState } from 'react';
 import AdminDashboard from './components/AdminDashboard.jsx';
 import OrganizerDashboard from './components/OrganizerDashboard.jsx';
+import BookingsComponent from './components/BookingsComponent.jsx';
 
 function App() {
 
@@ -61,7 +62,8 @@ function App() {
                 <Route path="/modifyEventFightNight/:id" element={<ProtectedRoute><EventFightNightModificationPage /></ProtectedRoute>} />
                 <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
                 <Route path="/event-organizer-dashboard" element={<ProtectedRoute><OrganizerDashboard/></ProtectedRoute>} />
-                
+                <Route path="/bookings-for-user/:id" element={<ProtectedRoute><BookingsComponent/></ProtectedRoute>} />
+
                 <Route path="/unauthorized" element= {<Unauthorized/>} />
               </Routes>
             </LayoutComponent>

@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 const BookingFormComponent = ({ eventFightNightId }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [customer_id, setCustomerId] = useState('');
+    const [customerId, setCustomerId] = useState('');
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -22,7 +22,7 @@ const BookingFormComponent = ({ eventFightNightId }) => {
         }
 
         const bookingData = {
-            customer_id,
+            customerId,
             name,
             email,
             eventFightNightId,
