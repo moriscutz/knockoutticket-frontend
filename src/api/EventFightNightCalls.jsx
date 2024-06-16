@@ -45,7 +45,7 @@ const EventFightNightCalls = {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No token found');
 
-        const response = await axios.post(`${BASE_URL}/${eventData.eventFightNightId}/addEvent`, eventData, {
+        const response = await axios.post(`${BASE_URL}/addEvent`, eventData, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

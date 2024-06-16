@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import SidebarComponent from '../components/SideBarComponent';
 import { jwtDecode } from 'jwt-decode';
+import AggregatedBoxerStats from '../components/AggregatedBoxerStats.jsx';
+
 const EventFightNightListPage = () => {
     const [eventFightNights, setEventFightNights] = useState([]);
     const [userRole, setUserRole] = useState([]);
@@ -54,6 +56,7 @@ const EventFightNightListPage = () => {
                 ))}
             </Grid>
             <ToastContainer />
+            <AggregatedBoxerStats/>
             <SidebarComponent/>
         </Container>
     );

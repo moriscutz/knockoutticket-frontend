@@ -23,13 +23,16 @@ const AggregatedBoxerStats = () => {
 
     return (
         <Container>
-            <Typography variant="h4" gutterBottom>
+            <br/>
+            <br/>
+            <Typography variant="h6" gutterBottom>
                 Average of wins and losses of our fighters:
             </Typography>
-            <Typography variant="body1">
+            <Typography variant="body3">
                 Average Wins: {stats.averageWins.toFixed(2)}
             </Typography>
-            <Typography variant="body1">
+            <br/>
+            <Typography variant="body3">
                 Average Losses: {stats.averageLosses.toFixed(2)}
             </Typography>
             <ToastContainer />

@@ -5,6 +5,7 @@ import BoxerCalls from '../api/BoxerCalls';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SideBarComponent from './SideBarComponent';
+import { jwtDecode } from 'jwt-decode';
 
 const BoxersListComponent = () => {
   const [boxers, setBoxers] = useState([]);
@@ -14,6 +15,7 @@ const BoxersListComponent = () => {
     minWins: '',
     maxLosses: ''
   });
+  const [role, setRole] = useState([]);
 
   const fetchBoxers = async (filters = {}) => {
     try {
@@ -29,6 +31,12 @@ const BoxersListComponent = () => {
   };
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      const decodedToken = jwtDecode(storedToken);
+      
+      setRole(decodedToken.roles);
+    }
     fetchBoxers();
   }, []);
 
@@ -48,6 +56,8 @@ const BoxersListComponent = () => {
   if (isLoading) {
     return <CircularProgress />;
   }
+
+  const isEventOrganizerOrAdmin = role.includes("EVENT_ORGANIZER") || role.includes("ADMINISTRATOR");
 
   return (
     <Container>
@@ -108,6 +118,12 @@ const BoxersListComponent = () => {
           </Grid>
         ))}
       </Grid>
+      <br/>
+      {isEventOrganizerOrAdmin && (
+        <Typography variant="h7" gutterBottom>
+        Click on the boxer's name to modify the Boxer's data
+        </Typography>
+      )}
       <ToastContainer />
       <SideBarComponent />
     </Container>

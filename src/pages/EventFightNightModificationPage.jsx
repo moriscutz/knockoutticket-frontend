@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SideBarComponent from '../components/SideBarComponent';
 import AddEventToFightNightComponent from '../components/AddEventToFightNightComponent';
 import { useNavigate } from 'react-router-dom';
+import CompleteEventButton from '../components/CompleteEventButton';
 
 const EventFightNightModificationPage = () => {
     const { id } = useParams();
@@ -214,6 +215,7 @@ const EventFightNightModificationPage = () => {
                                     ))}
                                 </TextField>
                                 <Button variant="contained" color="secondary" onClick={() => handleDeleteEvent(event.id)} sx={{ m: 1 }}>Delete Event</Button>
+                                {isEventOrganizerOrAdmin && <CompleteEventButton event={event} />} 
                             </CardContent>
                             
                         </Card>

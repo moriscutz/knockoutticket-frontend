@@ -52,6 +52,7 @@ const AdminDashboard = () => {
       const updatedUsers = users.filter(user => user.id !== selectedUser.id);
       setUsers(updatedUsers);
       handleDeleteClose();
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -79,6 +80,7 @@ const AdminDashboard = () => {
       );
       setUsers(updatedUsers);
       handleEditClose();
+      window.location.reload();
     } catch (error) {
       console.error("Error updating user role:", error);
     }

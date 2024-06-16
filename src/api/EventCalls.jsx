@@ -48,7 +48,7 @@ const EventCalls = {
             const token = localStorage.getItem('token');
             if (!token) throw new Error('No token found');
 
-            const response = await axios.post(`${BASE_URL}/${eventId}/boxers`, null, {
+            const response = await axios.get(`${BASE_URL}/${eventId}/boxers`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -101,6 +101,23 @@ const EventCalls = {
             }
         });
         return response.data;
+    },
+
+    countEventsByOrganizer: async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) throw new Error('No token found');
+
+            const response = await axios.get(`${BASE_URL}/countByOrganizer`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error counting events by organizer:', error);
+            throw error;
+        }
     }
 };
 

@@ -7,7 +7,6 @@ const AdminCalls = {
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found');
-      console.log(userId, rolesData);
       const response = await axios.put(`${BASE_URL}/${userId}/roles`, rolesData, {
         headers: {
           Authorization: `Bearer ${token}`

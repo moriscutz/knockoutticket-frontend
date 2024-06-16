@@ -23,14 +23,15 @@ const ModifyBoxerComponent = () => {
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
-        const decodedToken = jwtDecode(storedToken);
-        setRole(decodedToken.roles);
+        if (storedToken) {
+            const decodedToken = jwtDecode(storedToken);
+            setRole(decodedToken.roles);
 
-        if(role.includes("NORMAL_USER"))
-            {
-              navigate("/unauthorized");
+            if (decodedToken.roles.includes("NORMAL_USER")) {
+                navigate("/unauthorized");
             }
-            
+        }
+
         const fetchBoxerData = async () => {
             try {
                 const response = await BoxerCalls.getBoxerById(id);
@@ -42,7 +43,7 @@ const ModifyBoxerComponent = () => {
         };
 
         fetchBoxerData();
-    });
+    }, [id, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -69,7 +70,7 @@ const ModifyBoxerComponent = () => {
         }
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = () => {
         setOpenConfirmation(true);
     };
 
@@ -129,15 +130,14 @@ const ModifyBoxerComponent = () => {
                 />
                 <Button type="submit" variant="contained" color="secondary">
                     Update Boxer
-                </Button> 
-                <Button onClick={() => handleDelete(boxerData.id)} variant="contained" color="secondary">
-                  Delete
+                </Button>
+                <Button onClick={handleDelete} variant="contained" color="secondary">
+                    Delete
                 </Button>
             </form>
             <ToastContainer />
-            <SidebarComponent/>
+            <SidebarComponent />
 
-            {/* Confirmation Dialog */}
             <Dialog open={openConfirmation} onClose={cancelDelete}>
                 <DialogTitle>Confirmation</DialogTitle>
                 <DialogContent>

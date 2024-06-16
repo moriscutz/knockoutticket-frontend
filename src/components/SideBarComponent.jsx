@@ -89,6 +89,12 @@ const SidebarComponent = () => {
               <ListItemText primary="Admin Dashboard" />
             </ListItem>
           )}
+          {role.includes("EVENT_ORGANIZER") && (
+            <ListItem button component={Link} to="/event-organizer-dashboard" onClick={toggleDrawer}>
+            <ListItemIcon><SettingsIcon /></ListItemIcon>
+            <ListItemText primary="Organizer Dashboard" />
+          </ListItem>
+          )}
           <ListItem>
             <LogoutButton />
           </ListItem>

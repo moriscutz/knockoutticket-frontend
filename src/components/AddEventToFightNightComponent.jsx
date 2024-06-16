@@ -7,6 +7,8 @@ import EventFightNightCalls from '../api/EventFightNightCalls';
 import 'react-toastify/dist/ReactToastify.css';
 import dayjs from 'dayjs';
 import SidebarComponent from '../components/SideBarComponent';
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
 
 const AddEventToFightNightComponent = ({ fightNightId, eventFightNightDate, eventFightNightStartTime, eventFightNightEndTime, onEventAdded }) => {
     const [boxers, setBoxers] = useState([]);
@@ -52,6 +54,9 @@ const AddEventToFightNightComponent = ({ fightNightId, eventFightNightDate, even
             const startDateTime = dayjs(eventFightNightDate).hour(dayjs(startTime).hour()).minute(dayjs(startTime).minute()).second(0).millisecond(0).toISOString();
             const endDateTime = dayjs(eventFightNightDate).hour(dayjs(endTime).hour()).minute(dayjs(endTime).minute()).second(0).millisecond(0).toISOString();
 
+            const eventDate = new Date(eventFightNightDate);
+            eventDate.setHours(dayjs(startTime).hour(), dayjs(startTime).minute());
+
             const eventData = {
                 eventFightNightId: fightNightId,
                 boxerId1: selectedBoxer1.id,
@@ -59,6 +64,7 @@ const AddEventToFightNightComponent = ({ fightNightId, eventFightNightDate, even
                 organizerId: jwtDecode(token).userId,
                 startTime: startDateTime,
                 endTime: endDateTime,
+                eventDate: eventDate.toISOString(),
                 status,
                 place
             };

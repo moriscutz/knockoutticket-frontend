@@ -12,7 +12,7 @@ const LoginComponent = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [errors, setErrors] = useState({ username: '', password: '' });
   const [role, setRole] = useState([]);
-
+  const [isLoggedIn, setIsLoggedIn] = useState();
   useEffect(() => {
     
   });
@@ -50,7 +50,7 @@ const LoginComponent = () => {
 
         if (decodedToken.roles && decodedToken.roles.includes('ADMINISTRATOR')) navigate('/admin');
         else if (decodedToken.roles && decodedToken.roles.includes('NORMAL_USER')) navigate('/');
-        else if (decodedToken.roles && decodedToken.roles.includes('EVENT_ORGANIZER')) navigate("/createEventFightNight");
+        else if (decodedToken.roles && decodedToken.roles.includes('EVENT_ORGANIZER')) navigate("/event-organizer-dashboard");
 
         setIsLoggedIn(true);
         toast("You have been logged in");

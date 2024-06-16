@@ -12,7 +12,7 @@ body {
 	place-items: center;
 
 	--bkg: #5eb3fd;
-	--white: #e7e6e6;
+	--white: #e0d8d8;
 
 	background-color: var(--white);
 	background-image: url("https://www.transparenttextures.com/patterns/concrete-wall.png");
