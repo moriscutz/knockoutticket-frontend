@@ -11,7 +11,7 @@ before_script:
 build_frontend:
   stage: build
   script:
-    -npm run build
+    - npm run build
   artifacts:
     paths:
       - .next/
