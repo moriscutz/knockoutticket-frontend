@@ -6,6 +6,7 @@ import BoxerCalls from '../api/BoxerCalls';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import SidebarComponent from '../components/SideBarComponent.jsx';
+import { jwtDecode } from 'jwt-decode';
 
 const ModifyBoxerComponent = () => {
     const navigate = useNavigate();
@@ -18,8 +19,19 @@ const ModifyBoxerComponent = () => {
         draws: ''
     });
     const [openConfirmation, setOpenConfirmation] = useState(false);
+    const [role, setRole] = useState([]);
 
     useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            const decodedToken = jwtDecode(storedToken);
+            setRole(decodedToken.roles);
+
+            if (decodedToken.roles.includes("NORMAL_USER")) {
+                navigate("/unauthorized");
+            }
+        }
+
         const fetchBoxerData = async () => {
             try {
                 const response = await BoxerCalls.getBoxerById(id);
@@ -31,7 +43,7 @@ const ModifyBoxerComponent = () => {
         };
 
         fetchBoxerData();
-    }, [id]);
+    }, [id, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -58,7 +70,7 @@ const ModifyBoxerComponent = () => {
         }
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = () => {
         setOpenConfirmation(true);
     };
 
@@ -118,15 +130,14 @@ const ModifyBoxerComponent = () => {
                 />
                 <Button type="submit" variant="contained" color="secondary">
                     Update Boxer
-                </Button> 
-                <Button onClick={() => handleDelete(boxerData.id)} variant="contained" color="secondary">
-                  Delete
+                </Button>
+                <Button onClick={handleDelete} variant="contained" color="secondary">
+                    Delete
                 </Button>
             </form>
             <ToastContainer />
-            <SidebarComponent/>
+            <SidebarComponent />
 
-            {/* Confirmation Dialog */}
             <Dialog open={openConfirmation} onClose={cancelDelete}>
                 <DialogTitle>Confirmation</DialogTitle>
                 <DialogContent>

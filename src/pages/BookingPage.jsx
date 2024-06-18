@@ -1,36 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
+import { Container, Typography, Button } from '@mui/material';
 import BookingFormComponent from '../components/BookingFormComponent.jsx';
-import EventCalls from '../api/EventCalls.jsx';
-import { useEffect, useState } from 'react';
+import EventFightNightCalls from '../api/EventFightNightCalls';
+import { Link } from 'react-router-dom';
 import SideBarComponent from '../components/SideBarComponent.jsx';
 
 const BookingPage = () => {
     const { id } = useParams();
-    const [event, setEvent] = useState(null);
+    const [eventFightNight, setEventFightNight] = useState(null);
 
     useEffect(() => {
-        const fetchEvent = async () => {
+        const fetchEventFightNight = async () => {
             try {
-                const eventData = await EventCalls.getEvent(id);
-                setEvent(eventData.event);
+                const eventFightNightData = await EventFightNightCalls.getEventFightNight(id);
+                setEventFightNight(eventFightNightData);
             } catch (error) {
-                console.error('Error fetching event:', error);
+                console.error('Error fetching Event Fight Night:', error);
             }
         };
 
-        fetchEvent();
+        fetchEventFightNight();
     }, [id]);
 
     return (
         <Container>
-            {event ? (
-                <BookingFormComponent event={event} />
+            {eventFightNight ? (
+                <div>
+                    <Typography variant="h4" gutterBottom>
+                        {eventFightNight.title}
+                    </Typography>
+                    <Typography variant="h6" gutterBottom>
+                        Date: {new Date(eventFightNight.date).toLocaleDateString()}
+                    </Typography>
+                    <Typography variant="h6" gutterBottom>
+                        Start Time: {eventFightNight.startTime}
+                    </Typography>
+                    <Typography variant="h6" gutterBottom>
+                        End Time: {eventFightNight.endTime}
+                    </Typography>
+                    <Typography variant="h6" gutterBottom>
+                        Place: {eventFightNight.place}
+                    </Typography>
+                    <BookingFormComponent eventFightNightId={eventFightNight.id} />
+                </div>
             ) : (
-                <Typography variant="h4">Loading event details...</Typography>
+                <Typography variant="h4">Loading Event Fight Night details...</Typography>
             )}
-            <SideBarComponent/>
+            <SideBarComponent />
         </Container>
     );
 };

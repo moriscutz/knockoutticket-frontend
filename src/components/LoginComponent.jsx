@@ -11,18 +11,11 @@ const LoginComponent = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [errors, setErrors] = useState({ username: '', password: '' });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [role, setRole] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState();
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-      const decodedToken = JSON.parse(localStorage.getItem('user'));
-      if (decodedToken.roles.includes("ADMINISTRATOR")) navigate("/createboxer");
-      else if (decodedToken.roles.includes("EVENT_ORGANIZER")) navigate("/createevent");
-      else if (decodedToken.roles.includes("NORMAL_USER")) navigate("/");
-    }
-  }, []);
+    
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -55,9 +48,9 @@ const LoginComponent = () => {
         localStorage.setItem('token', accessToken);
         localStorage.setItem('user', JSON.stringify(decodedToken));
 
-        if (decodedToken.roles && decodedToken.roles.includes('ADMINISTRATOR')) navigate('/createboxer');
+        if (decodedToken.roles && decodedToken.roles.includes('ADMINISTRATOR')) navigate('/admin');
         else if (decodedToken.roles && decodedToken.roles.includes('NORMAL_USER')) navigate('/');
-        else if (decodedToken.roles && decodedToken.roles.includes('EVENT_ORGANIZER')) navigate('/createevent');
+        else if (decodedToken.roles && decodedToken.roles.includes('EVENT_ORGANIZER')) navigate("/event-organizer-dashboard");
 
         setIsLoggedIn(true);
         toast("You have been logged in");

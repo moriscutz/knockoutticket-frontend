@@ -104,6 +104,22 @@ const BoxerCalls = {
       console.error('Error deleting boxer:', error);
       throw error;
     }
+  },
+
+  updateBoxerRecord: async (id, boxerRecord) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('No token found');
+  
+      await axios.put(`${BASE_URL}/records/${id}`, boxerRecord, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    } catch (error) {
+      console.error('Error updating Boxers record:', error);
+      throw error;
+    }
   }
 };
 

@@ -9,6 +9,7 @@ import BoxerCalls from '../api/BoxerCalls';
 import EventCalls from '../api/EventCalls';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
+import { jwtDecode } from 'jwt-decode';
 
 const CreateEventComponent = () => {
     const navigate = useNavigate();
@@ -17,17 +18,25 @@ const CreateEventComponent = () => {
     const [selectedBoxer2, setSelectedBoxer2] = useState(null);
     const [place, setPlace] = useState('');
     const [eventDate, setEventDate] = useState(dayjs());
-    
+    const [role, setRole] = useState([]);
+
     useEffect(() => {
 
         const token = localStorage.getItem('token');
        
+        const decodedToken = jwtDecode(storedToken);
+        setRole(decodedToken.roles);
 
+        if(role.includes("NORMAL_USER"))
+            {
+              navigate("/unauthorized");
+            }
+        
         BoxerCalls.getAllBoxers().then(setBoxers).catch(error => {
             console.error('Failed to fetch boxers:', error);
             toast.error('Failed to load boxers.');
         });
-    }, [navigate]);
+    });
 
     const handleSubmit = async () => {
         if (!selectedBoxer1 || !selectedBoxer2 || !eventDate || !place) {
