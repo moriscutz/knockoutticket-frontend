@@ -28,7 +28,7 @@ const EventFightNightListPage = () => {
             });
     }, []);
 
-    const isEventOrganizerOrAdmin = userRole.includes("EVENT_ORGANIZER") || userRole.includes("ADMINISTRATOR");
+    const isEventOrganizer = userRole.includes("EVENT_ORGANIZER");
     
     return (
         <Container>
@@ -45,7 +45,7 @@ const EventFightNightListPage = () => {
                                 <Button variant="contained" color="secondary" component={Link} to={`/eventFightNight/${eventFightNight.id}`} sx = {{mt:1 , ml: 1}}>
                                     More Details
                                 </Button>
-                                {isEventOrganizerOrAdmin && (
+                                {isEventOrganizer && (
                                 <Button variant="contained" color="primary" component={Link} to={`/ModifyEventFightNight/${eventFightNight.id}`} sx = {{mt:1 , ml: 1}} >
                                     Modify
                                 </Button>
