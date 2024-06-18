@@ -21,6 +21,7 @@ const BookingFormComponent = ({ eventFightNightId }) => {
             return;
         }
 
+        
         const bookingData = {
             customerId,
             name,
