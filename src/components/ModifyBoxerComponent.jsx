@@ -16,7 +16,8 @@ const ModifyBoxerComponent = () => {
         fullName: '',
         wins: '',
         losses: '',
-        draws: ''
+        draws: '',
+        age: ''
     });
     const [openConfirmation, setOpenConfirmation] = useState(false);
     const [role, setRole] = useState([]);
@@ -53,15 +54,42 @@ const ModifyBoxerComponent = () => {
         }));
     };
 
+    const validateValues = () => {
+        const { wins, losses, draws, age } = boxerData;
+
+        if (wins < 0 || losses < 0 || draws < 0) {
+            toast.error('Wins, losses, and draws cannot be negative');
+            return false;
+        }
+
+        if (wins > 1000 || losses > 1000 || draws > 1000) {
+            toast.error('Wins, losses, and draws should not exceed 1000');
+            return false;
+        }
+
+        if (age < 0) {
+            toast.error('Age cannot be negative');
+            return false;
+        }
+
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateValues()) {
+            return;
+        }
+
         try {
             await BoxerCalls.updateBoxer(boxerData.id, {
                 id: boxerData.id,
                 fullName: boxerData.fullName,
                 wins: boxerData.wins,
                 losses: boxerData.losses,
-                draws: boxerData.draws
+                draws: boxerData.draws,
+                age: boxerData.age
             });
             toast.success('Boxer data updated successfully');
         } catch (error) {
@@ -124,6 +152,15 @@ const ModifyBoxerComponent = () => {
                     name="draws"
                     type="number"
                     value={boxerData.draws}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                />
+                <TextField
+                    label="Age"
+                    name="age"
+                    type="number"
+                    value={boxerData.age}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
