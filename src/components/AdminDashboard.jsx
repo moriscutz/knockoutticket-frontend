@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Select, MenuItem, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { Delete as DeleteIcon, Edit as EditIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Select, MenuItem, Tooltip } from '@mui/material';
+import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import UserCalls from '../api/UserCalls';
 import AdminCalls from '../api/AdminCalls'; 
 import SidebarComponent from './SideBarComponent';
@@ -34,7 +34,7 @@ const AdminDashboard = () => {
     };
 
     fetchUsers();
-  }, []);
+  }, [navigate]);
 
   const handleDeleteClick = (user) => {
     setSelectedUser(user);
@@ -86,6 +86,19 @@ const AdminDashboard = () => {
     }
   };
 
+  const getDeleteDialogContent = () => {
+    if (!selectedUser) return '';
+
+    const role = selectedUser.user.userType;
+    if (role.includes('ADMINISTRATOR')) {
+      return 'Are you sure you want to delete this administrator?';
+    } else if (role.includes('EVENT_ORGANIZER')) {
+      return 'Are you sure you want to delete this event organizer? All associated events and archived events will be deleted.';
+    } else {
+      return 'Are you sure you want to delete this user? All associated bookings will be deleted.';
+    }
+  };
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -108,12 +121,16 @@ const AdminDashboard = () => {
                 <TableCell>{dataItem.user.email}</TableCell>
                 <TableCell>{dataItem.user.userType}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleEditClick(dataItem)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDeleteClick(dataItem)}>
-                    <DeleteIcon />
-                  </IconButton>
+                  <Tooltip title="Edit User">
+                    <IconButton onClick={() => handleEditClick(dataItem)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete User">
+                    <IconButton onClick={() => handleDeleteClick(dataItem)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}
@@ -124,13 +141,13 @@ const AdminDashboard = () => {
       <Dialog open={openDeleteDialog} onClose={handleDeleteClose}>
         <DialogTitle>Delete User</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this user?
+          <DialogContentText >
+            {getDeleteDialogContent()}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteClose}>Cancel</Button>
-          <Button onClick={handleDeleteSubmit}>Delete</Button>
+          <Button color="secondary" onClick={handleDeleteSubmit}>Delete</Button>
         </DialogActions>
       </Dialog>
 

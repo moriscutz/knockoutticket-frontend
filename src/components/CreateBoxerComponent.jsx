@@ -22,17 +22,35 @@ const CreateBoxerComponent = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const decodedToken = jwtDecode(token);
-    setRole(decodedToken.roles);
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setRole(decodedToken.roles);
 
-    if(role.includes("NORMAL_USER")){
-      navigate("/unauthorized");
+      if (decodedToken.roles.includes("NORMAL_USER")) {
+        navigate("/unauthorized");
+      }
     }
-  });
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const validateValues = () => {
+    const { wins, losses, draws, weight, age } = formData;
+
+    if (wins < 0 || losses < 0 || draws < 0 || weight < 0 || age < 0) {
+      toast.error('Wins, losses, draws, weight, and age cannot be negative');
+      return false;
+    }
+
+    if (wins > 1000 || losses > 1000 || draws > 1000 || weight > 500 || age > 100) {
+      toast.error('Invalid input values. Please check the limits.');
+      return false;
+    }
+
+    return true;
   };
 
   const handleSubmit = async (e) => {
@@ -43,6 +61,10 @@ const CreateBoxerComponent = () => {
 
     if (missingFields.length > 0) {
       toast.error('Please fill all required fields');
+      return;
+    }
+
+    if (!validateValues()) {
       return;
     }
 
@@ -130,7 +152,7 @@ const CreateBoxerComponent = () => {
       <Button type="submit" variant="contained" color="secondary">
         Submit
       </Button>
-      <ToastContainer/>
+      <ToastContainer />
     </form>
   );
 };

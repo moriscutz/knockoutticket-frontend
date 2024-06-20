@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, Typography, Container, Grid, Button, TextField, MenuItem, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Card, CardContent, Typography, Container, Grid, Button, TextField, MenuItem, Box, Paper, Divider } from '@mui/material';
 import EventFightNightCalls from '../api/EventFightNightCalls';
 import EventCalls from '../api/EventCalls';
 import { ToastContainer, toast } from 'react-toastify';
@@ -35,11 +34,10 @@ const EventFightNightModificationPage = () => {
             setUserRole(decodedToken.roles);
             setRole(decodedToken.roles);
 
-            if(role.includes("NORMAL_USER"))
-                {
-                    navigate("/unauthorized");
-                }
-      
+            if (role.includes("NORMAL_USER")) {
+                navigate("/unauthorized");
+            }
+
         }
     });
 
@@ -115,7 +113,7 @@ const EventFightNightModificationPage = () => {
         try {
             await EventFightNightCalls.deleteEventFightNight(id);
             toast.success('Event Fight Night deleted successfully');
-            
+
         } catch (error) {
             console.error('Failed to delete event fight night:', error);
             toast.error('Failed to delete event fight night.');
@@ -139,12 +137,44 @@ const EventFightNightModificationPage = () => {
 
     return (
         <Container>
-            <Typography variant="h4" gutterBottom>Modify Event Fight Night</Typography>
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6">Event Fight Night Details</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
+             <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', marginBottom: 4 }}>Events</Typography>
+            <Grid container spacing={3}>
+                {eventsWithBoxers.map((event) => (
+                    <Grid item xs={12} md={6} lg={4} key={event.id}>
+                        <Card sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                            <CardContent sx={{ textAlign: 'center' }}>
+                                <Typography variant="h6" gutterBottom>{event.boxer1Name} vs {event.boxer2Name}</Typography>
+                                <Typography variant="body2" color="textSecondary">{event.boxer1Record} vs {event.boxer2Record}</Typography>
+                                <TextField
+                                    select
+                                    label="Status"
+                                    value={event.status}
+                                    onChange={(e) => handleEventStatusChange(event.id, e.target.value)}
+                                    fullWidth
+                                    margin="normal"
+                                    variant="outlined"
+                                >
+                                    {eventStatusOptions.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '6px', marginTop: 2 }}>
+                                    <Button variant="contained" color="secondary" onClick={() => handleDeleteEvent(event.id)}>Delete</Button>
+                                    {isEventOrganizerOrAdmin && <CompleteEventButton event={event} />}
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+            <br/>
+            <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', marginBottom: 4 }}>Modify Event Fight Night</Typography>
+            <Paper elevation={3} sx={{ padding: 4, marginBottom: 4 }}>
+                <Box component="form" noValidate autoComplete="off">
+                    <Typography variant="h6" gutterBottom>Event Fight Night Details</Typography>
+                    <Divider sx={{ marginBottom: 2 }} />
                     <TextField
                         name="title"
                         label="Title"
@@ -152,6 +182,7 @@ const EventFightNightModificationPage = () => {
                         onChange={handleFightNightChange}
                         fullWidth
                         margin="normal"
+                        variant="outlined"
                     />
                     <TextField
                         name="place"
@@ -160,6 +191,7 @@ const EventFightNightModificationPage = () => {
                         onChange={handleFightNightChange}
                         fullWidth
                         margin="normal"
+                        variant="outlined"
                     />
                     <TextField
                         name="date"
@@ -169,6 +201,7 @@ const EventFightNightModificationPage = () => {
                         fullWidth
                         margin="normal"
                         type="date"
+                        variant="outlined"
                     />
                     <TextField
                         name="startTime"
@@ -178,6 +211,7 @@ const EventFightNightModificationPage = () => {
                         fullWidth
                         margin="normal"
                         type="time"
+                        variant="outlined"
                     />
                     <TextField
                         name="endTime"
@@ -187,50 +221,20 @@ const EventFightNightModificationPage = () => {
                         fullWidth
                         margin="normal"
                         type="time"
+                        variant="outlined"
                     />
-                    <Button variant="contained" color="primary" onClick={handleFightNightSave} sx={{ mt: 2 }}>Save Changes</Button>
-                    <Button variant="contained" color="secondary" onClick={handleDeleteEventFightNight} sx={{ mt: 2, ml: 2 }}>Delete Event Fight Night</Button>
-                </AccordionDetails>
-            </Accordion>
-            <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>Events</Typography>
-            <Grid container spacing={3}>
-                {eventsWithBoxers.map((event) => (
-                    <Grid item xs={12} md={4} key={event.id}>
-                        <Card sx={{ height: '300px', width: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                            <CardContent sx={{ textAlign: 'center' }}>
-                                <Typography variant="h6">{event.boxer1Name} vs {event.boxer2Name}</Typography>
-                                <Typography variant="body2" color="textSecondary">{event.boxer1Record} vs {event.boxer2Record}</Typography>
-                                <TextField
-                                    select
-                                    label="Status"
-                                    value={event.status}
-                                    onChange={(e) => handleEventStatusChange(event.id, e.target.value)}
-                                    fullWidth
-                                    margin="normal"
-                                >
-                                    {eventStatusOptions.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                                <Button variant="contained" color="secondary" onClick={() => handleDeleteEvent(event.id)} sx={{ m: 1 }}>Delete Event</Button>
-                                {isEventOrganizerOrAdmin && <CompleteEventButton event={event} />} 
-                            </CardContent>
-                            
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+                        <Button variant="contained" color="primary" onClick={handleFightNightSave}>Save Changes</Button>
+                        <Button variant="contained" color="secondary" onClick={handleDeleteEventFightNight}>Delete Event Fight Night</Button>
+                    </Box>
+                </Box>
+            </Paper>
             {isEventOrganizerOrAdmin && (
-                <Accordion sx={{ mt: 4 }}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">Add a new event to this Fight Night</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <AddEventToFightNightComponent fightNightId={id} eventFightNightDate={eventFightNight.date} onEventAdded={fetchEventFightNightDetails} />
-                    </AccordionDetails>
-                </Accordion>
+                <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
+                    <Typography variant="h6" gutterBottom>Add a new event to this Fight Night</Typography>
+                    <Divider sx={{ marginBottom: 2 }} />
+                    <AddEventToFightNightComponent fightNightId={id} eventFightNightDate={eventFightNight.date} onEventAdded={fetchEventFightNightDetails} />
+                </Paper>
             )}
             <ToastContainer />
             <SideBarComponent />
